@@ -47,8 +47,10 @@ public class Panel extends JPanel implements KeyListener {
              */
 
             while (quitGame == false) {
-                repaint();
-
+                
+            	update();
+            	repaint();
+                
                 try {
                     Thread.sleep(25);
                 } catch (InterruptedException e) {
@@ -80,7 +82,7 @@ public class Panel extends JPanel implements KeyListener {
         } 
         setTileY(1);
         
-        player = determinePos(player);
+        
         
         graphics.drawRect(player.getPosX(), player.getPosY(),
                 player.getWidthX(), player.getHeightY());
@@ -96,7 +98,7 @@ public class Panel extends JPanel implements KeyListener {
          * current: draws player only (14/05/18)
          */
 
-        player = new Player(100, 200, 25, 75);
+        player = new Player(100, 200, 50, 50);
         
         grid = new Tile[][] {
         	{new Tile((byte) 0),new Tile((byte) 0),new Tile((byte) 1),new Tile((byte) 0),new Tile((byte) 1),new Tile((byte) 1),new Tile((byte) 1),new Tile((byte) 1),new Tile((byte) 1),new Tile((byte) 0),new Tile((byte) 1),new Tile((byte) 0),new Tile((byte) 0)},
@@ -146,6 +148,10 @@ public class Panel extends JPanel implements KeyListener {
 
 
     }
+    
+    public void update() {
+		player = determinePos(player);
+	}
 
     @Override
     public void keyReleased(KeyEvent e) {
@@ -183,8 +189,6 @@ public class Panel extends JPanel implements KeyListener {
 
 	public void setTileY(int tileY) {
 		this.tileY = tileY;
-	}
-    
-    
+	}    
 
 }
