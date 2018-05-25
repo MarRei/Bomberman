@@ -19,7 +19,7 @@ public class Panel extends JPanel implements KeyListener {
      * ToDo: KeyListeners to move player! (priority!)
      */
 
-    int globalWidth = 1280, globalHeight = 720;
+    int globalWidth = 1920, globalHeight = 1080;
     boolean quitGame = false;
 
 
