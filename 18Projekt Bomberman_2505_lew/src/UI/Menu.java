@@ -3,7 +3,7 @@ package UI;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-
+//swing dein ding
 public class Menu extends JFrame implements WindowListener {
 
     /**
