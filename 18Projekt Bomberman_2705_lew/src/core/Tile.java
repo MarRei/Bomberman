@@ -13,12 +13,10 @@ public class Tile extends Rectangle {
      */
 
     private byte index; //index determines what kind of tile is drawn on screen. (0-5)
-    public static int size = 50;
-
-    public Tile(byte index){
-
-        this.index = index;
-
+    
+	public Tile(int x, int y, int width, int height){
+		
+    	super(x, y, width, height);
     }
 
     public byte getIndex() {

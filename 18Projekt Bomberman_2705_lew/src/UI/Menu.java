@@ -21,7 +21,7 @@ public class Menu extends JFrame implements WindowListener {
         //initial settings for frame Menu layout
         setTitle(title);
         addWindowListener(this);
-        setSize(1920, 1080);
+        setSize(1280, 720);
         setResizable(false);
         setVisible(true);
         setLocationRelativeTo(null);
