@@ -85,22 +85,41 @@ public class Panel extends JPanel implements KeyListener {
         	}		
         }
         
-        // red color for collision Tiles
+        // draw Tiles
         for (int i = 0; i < 9; i++) {
         	for (int j = 0; j < 13; j++) {
         		Tile t = grid[i][j];
-        		if ((j % 2 == 1 && i % 2 == 1)) {
-        			graphics.setColor(Color.red);
+        		if (t.getIndex() == (byte) 2) {
         			graphics.drawRect(t.x, t.y, t.width, t.height);
-        			
+        			graphics.drawString("2", t.x + 22, t.y + 28);		// draw "2" for indestructable Tiles
+        			graphics.fillRect(t.x, t.y, t.width, t.height);
         		}
         	}
         }
         
-        graphics.drawRect(player.x, player.y,
-                player.width, player.height);
+        for (int i = 0; i < 9; i++) {
+        	for (int j = 0; j < 13; j++) {
+        		Tile t = grid[i][j];
+        		if (t.getIndex() == (byte) 0) {
+        			graphics.drawString("0", t.x + 22, t.y + 28);		// draw "0" for walkable Tiles
+        		}
+        	}
         }
         
+        for (int i = 0; i < 9; i++) {
+        	for (int j = 0; j < 13; j++) {
+        		Tile t = grid[i][j];
+        		if (t.getIndex() == (byte) 1) {
+        			graphics.drawString("1", t.x + 22, t.y + 28);		// draw "1" for destructable Tiles
+        			graphics.fillRect(t.x + 12, t.y + 12, 25, 25);
+        		}
+        	} 
+		}
+        
+        graphics.fillRect(player.x, player.y, player.width, player.height);
+        
+        }
+
     
     
     
@@ -188,14 +207,36 @@ public class Panel extends JPanel implements KeyListener {
         return p;    
     }
     
-    // setting indestructable Tiles
+    // setting Tiles
     public void setTileIndex() {
     	for (int i = 0; i < 9; i++) {
         	for (int j = 0; j < 13; j++) {
         		Tile t = grid[i][j];
-        		if ((j % 2 == 1 && i % 2 == 1)) {
-        			t.setIndex((byte) 2);
+        		
+        		// setting indestructable Tiles
+        		if ((i % 2 == 1 && j % 2 == 1)) {
+        			t.setIndex((byte) 2);		
         		}
+        		
+        		// setting destructable Tiles
+        		if ((i %2 == 0 && j % 2 == 1) || (i %2 == 1 && j % 2 == 0)) {
+        			t.setIndex((byte) 1);		
+        		}
+        		
+        		// setting walkable Tiles
+        		if (i %2 == 0 && j % 2 == 0) {
+        			t.setIndex((byte) 0);		
+        		}
+        		
+        		grid[0][1].setIndex((byte) 0);
+        		grid[0][11].setIndex((byte) 0);
+        		grid[1][0].setIndex((byte) 0);
+        		grid[1][12].setIndex((byte) 0);
+        		grid[7][0].setIndex((byte) 0);
+        		grid[7][12].setIndex((byte) 0);
+        		grid[8][11].setIndex((byte) 0);
+        		grid[8][1].setIndex((byte) 0);
+        			
         	}
     	}
 		return;	

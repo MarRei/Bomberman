@@ -10,7 +10,7 @@ public class Collision {
 	    for (int i = 0; i < 9; i++) {
         	for (int j = 0; j < 13; j++) {
         		Tile t = grid[i][j];
-        		if (t.getIndex() == (byte) 2) {		// apply Collision only on Tiles with index 2
+        		if (t.getIndex() == (byte) 1 || t.getIndex() == (byte) 2) {		// apply Collision only on Tiles with index 2
         		
         		if (p.intersects(t) && p.x < t.x - 45) {
         			p.x = t.x - 50;
