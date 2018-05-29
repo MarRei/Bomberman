@@ -29,6 +29,7 @@ public class Panel extends JPanel implements KeyListener {
     Player player;
     Tile[][] grid;
     Collision coll;
+    String peter;
     
     public Panel() {
 
@@ -130,7 +131,7 @@ public class Panel extends JPanel implements KeyListener {
          * current: draws player only (14/05/18)
          */
 
-        player = new Player(750, 300, 50, 50);
+        player = new Player(750, 300, 25, 25);
         
         coll = new Collision();
         
@@ -161,21 +162,26 @@ public class Panel extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         //System.out.println("Key Pressed: "  + e);
-
+if(player.isMoving())
+{
+	System.out.println("Cant walk");
+}
+else {
         if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
 
             player.setMovementY(-2);
+           player.setKey("W");
 
         } else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
-
+        	player.setKey("D");
             player.setMovementX(2);
 
         } else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
-
+        	player.setKey("S");
             player.setMovementY(2);
 
         } else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
-
+        	player.setKey("A");
             player.setMovementX(-2);
 
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
@@ -183,20 +189,31 @@ public class Panel extends JPanel implements KeyListener {
             System.out.println("Bomb has been planted");
 
         }
+}
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
 
-        if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_A ||
-                e.getKeyCode() == KeyEvent.VK_LEFT || e.getKeyCode() == KeyEvent.VK_RIGHT) {
+        if (  (e.getKeyCode() == KeyEvent.VK_A ||
+                e.getKeyCode() == KeyEvent.VK_LEFT )&&player.getMovementX()!=2 ) {
 
             player.setMovementX(0);
 
-        } else if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S ||
-                e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
+        }
+        else if((e.getKeyCode() == KeyEvent.VK_RIGHT||e.getKeyCode() == KeyEvent.VK_D )&&player.getMovementX()!=-2) {
+        	player.setMovementX(0);
+        }
+        	
+        
+        else if ( (e.getKeyCode() == KeyEvent.VK_S 
+                 || e.getKeyCode() == KeyEvent.VK_DOWN)&&player.getMovementY()!=-2) {
 
             player.setMovementY(0);
+        }
+        else if((e.getKeyCode() == KeyEvent.VK_W ||e.getKeyCode() == KeyEvent.VK_UP)&&player.getMovementY()!=2)
+        {
+        player.setMovementY(0);	
         }
     }
 
@@ -206,6 +223,7 @@ public class Panel extends JPanel implements KeyListener {
         p.x += p.getMovementX();
         return p;    
     }
+    
     
     // setting Tiles
     public void setTileIndex() {

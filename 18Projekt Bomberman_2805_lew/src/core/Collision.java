@@ -1,8 +1,11 @@
 package core;
 
-public class Collision {
+import UI.Panel;
 
+public class Collision {
+	
 	public Collision() {
+		 
 		
 	}
 	
@@ -12,25 +15,25 @@ public class Collision {
         		Tile t = grid[i][j];
         		if (t.getIndex() == (byte) 1 || t.getIndex() == (byte) 2) {		// apply Collision only on Tiles with index 2
         		
-        		if (p.intersects(t) && p.x < t.x - 45) {
-        			p.x = t.x - 50;
+        		if (p.intersects(t) && p.getKey()=="A" ) {
+        			p.x = t.x+50 ;
         			
         			System.out.println("Player intersects from left");
         		}	
         			
-        		if (p.intersects(t) && p.x > t.x + 45) {
-            		p.x = t.x + 50;
+        		
+        		if (p.intersects(t) && p.getKey()=="D") {
+            		p.x = t.x - 25;
             			
             		System.out.println("Player intersects from right");
         		}
         		
-        		if (p.intersects(t) && p.y < t.y - 45) {
-            		p.y = t.y - 50;
+        		if (p.intersects(t) && p.getKey()=="S") {
+            		p.y = t.y-25 ;
             			
             		System.out.println("Player intersects from above");
         		}
-        		
-        		if (p.intersects(t) && p.y < t.y + 49) {
+        		if (p.intersects(t) && p.getKey()=="W") {
             		p.y = t.y + 50;
             			
             		System.out.println("Player intersects from below");
