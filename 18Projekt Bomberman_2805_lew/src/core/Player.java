@@ -28,6 +28,7 @@ public class Player extends Rectangle {
     public void setMovementY(int movement) {
         this.movementY = movement;
     }
+<<<<<<< HEAD
 
     public void setKey(String p) {
         key = p;
@@ -45,6 +46,27 @@ public class Player extends Rectangle {
         } else {
             return false;
         }
+=======
+    public void setKey(String key1)
+    {
+    	key =key1;
+    }
+    public String getKey()
+    {
+    	
+    	
+    return key;
+    }
+    public boolean isMoving()
+    {
+    	if(getMovementX()!=0||getMovementY()!=0)
+    	{
+    		return true;
+    	}
+    	else {
+    		return false;
+    	}
+>>>>>>> 0751d7e361372f1e239bf92a6e14a825a6feeb77
     }
 
 
