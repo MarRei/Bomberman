@@ -62,4 +62,17 @@ public class Collision {
 	    
 		return p;
 	}
+
+	public Tile checkTile(Player p, Tile[][] tiles){
+		for(int i = 0; i<9;i++){
+			for(int j = 0; j<13; j++){
+                Tile t = tiles[i][j];
+
+                if(t.getIndex() == (byte) 0 && p.intersects(t)){
+                	return t;
+				}
+			}
+		}
+		return null;
+	}
 }

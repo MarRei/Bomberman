@@ -69,7 +69,6 @@ public class Panel extends JPanel implements KeyListener {
 
     public void update() {
     	player = determinePos(player);
-    	setTileIndex();
     	player = coll.check(player, grid, top, bottom, left, right);
     	//coll.tileDetection(player, grid);
     	top.setLine(player.x + 2, player.y, player.x + 23, player.y);
@@ -123,6 +122,15 @@ public class Panel extends JPanel implements KeyListener {
         		}
         	} 
 		}
+
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 13; j++) {
+                Tile t = grid[i][j];
+                if (t.getIndex() == (byte) 5) {
+                    graphics.drawString("3", t.x + 22, t.y + 28);		// draw "0" for walkable Tiles
+                }
+            }
+        }
         
         graphics.fillRect(player.x, player.y, player.width, player.height);
         
@@ -162,6 +170,8 @@ public class Panel extends JPanel implements KeyListener {
         	x = 50;
         }
         y = 50;
+
+        setTileIndex();
     }
 
 
@@ -193,7 +203,9 @@ public class Panel extends JPanel implements KeyListener {
 
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 
-            System.out.println("Bomb has been planted");
+            if(coll.checkTile(player, grid) != null){
+                coll.checkTile(player, grid).setIndex((byte) 5);
+            }
             
 
         }

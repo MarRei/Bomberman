@@ -27,4 +27,8 @@ public class Tile extends Rectangle {
         this.index = index;
     }
 
+
+
+
+
 }
