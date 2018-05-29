@@ -162,11 +162,11 @@ public class Panel extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         //System.out.println("Key Pressed: "  + e);
-if(player.isMoving())
+if(!player.isMoving())
 {
-	System.out.println("Cant walk");
-}
-else {
+	
+
+
         if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
 
             player.setMovementY(-2);
@@ -190,7 +190,8 @@ else {
 
         }
 }
-    }
+}
+    
 
     @Override
     public void keyReleased(KeyEvent e) {
