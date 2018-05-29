@@ -159,8 +159,17 @@ public class Panel extends JPanel implements KeyListener {
     public void keyPressed(KeyEvent e) {
 
         //System.out.println("Key Pressed: "  + e);
+<<<<<<< HEAD
         if (!player.isMoving()) {
             if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
+=======
+if(!player.isMoving())
+{
+	
+
+
+        if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
+>>>>>>> 91020b39db35e633b0f12e54c7933a5ea67505d1
 
                 player.setMovementY(-2);
                 player.setKey("W");
@@ -183,7 +192,13 @@ public class Panel extends JPanel implements KeyListener {
 
             }
         }
+<<<<<<< HEAD
     }
+=======
+}
+}
+    
+>>>>>>> 91020b39db35e633b0f12e54c7933a5ea67505d1
 
     @Override
     public void keyReleased(KeyEvent e) {
