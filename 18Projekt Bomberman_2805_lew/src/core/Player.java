@@ -5,7 +5,7 @@ import java.awt.*;
 public class Player extends Rectangle {
 
     private int movementX, movementY;
-    private String peter;
+    private String key;
 
     public Player(int x, int y, int width, int height) {
 
@@ -28,25 +28,23 @@ public class Player extends Rectangle {
     public void setMovementY(int movement) {
         this.movementY = movement;
     }
-    public void setKey(String p)
-    {
-    	peter =p;
+
+    public void setKey(String p) {
+        key = p;
     }
-    public String getKey()
-    {
-    	
-    	
-    return peter;
+
+    public String getKey() {
+
+
+        return key;
     }
-    public boolean isMoving()
-    {
-    	if(getMovementX()==2 || getMovementX()==-2||getMovementY()==2||getMovementY()==-2)
-    	{
-    		return true;
-    	}
-    	else {
-    		return false;
-    	}
+
+    public boolean isMoving() {
+        if (getMovementX() != 0 || getMovementY() != 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
