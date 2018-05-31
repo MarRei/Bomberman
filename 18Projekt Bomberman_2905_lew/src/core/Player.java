@@ -4,14 +4,24 @@ import java.awt.*;
 
 public class Player extends Rectangle {
 
-    private int movementX, movementY;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int movementX, movementY;
+    private int bombMax = 2;
+    private int inventory = bombMax;
 
-    public Player(int x, int y, int width, int height) {
+	
+	public Player(int x, int y, int width, int height) {
 
         super(x, y, width, height);
 
     }
 
+	
+	
+	// Getter & Setter
     public int getMovementX() {
         return movementX;
     }
@@ -27,6 +37,21 @@ public class Player extends Rectangle {
     public void setMovementY(int movement) {
         this.movementY = movement;
     }
+    
+    public int getInventory() {
+		return inventory;
+	}
 
+	public void setInventory(int inventory) {
+		this.inventory = inventory;
+	}
+	
+	public int getBombMax() {
+		return bombMax;
+	}
+
+	public void setBombMax(int bombMax) {
+		this.bombMax = bombMax;
+	}
 
 }

@@ -7,6 +7,10 @@ import java.awt.event.*;
 public class Menu extends JFrame implements WindowListener {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * main menu and starting point for the application. only job is to
      * have functioning start and quit button.
      * <p>

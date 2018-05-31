@@ -5,6 +5,10 @@ import java.awt.*;
 public class Tile extends Rectangle {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      *
      * tiles make up the environment of bomberman. they can be
      * 1. destructible, 2. indestructible, 3. destroyed, 4. deadly, 5. power ups, 6. bombs

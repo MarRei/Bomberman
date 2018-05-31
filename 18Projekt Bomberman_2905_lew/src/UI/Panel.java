@@ -8,12 +8,14 @@ import java.awt.geom.Line2D;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Panel extends JPanel implements KeyListener {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	/**
      * job: central processing unit for textures, images and objects
      * game gets updated and drawn here. contains Thread, KeyListeners and paintComponents method
      * <p>
@@ -65,20 +67,26 @@ public class Panel extends JPanel implements KeyListener {
         t.start();
     }
 
-    //override for paintcomponent method. can only be accessed through Panel.repaint
 
+    
+    
+
+
+    // update Gamelogic
     public void update() {
     	player = determinePos(player);
     	player = coll.check(player, grid, top, bottom, left, right);
-    	//coll.tileDetection(player, grid);
     	top.setLine(player.x + 2, player.y, player.x + 23, player.y);
     	bottom.setLine(player.x + 2, player.y + 25, player.x + 23, player.y + 25);
     	left.setLine(player.x, player.y + 23 , player.x , player.y + 2);
     	right.setLine(player.x + 25, player.y + 23 , player.x + 25, player.y + 2);
-		
+
+    	System.out.println("Bomb Count: " +player.getInventory());	// Bomb Inventory Test
     	
     }
     
+    
+    // draw the Game
     @Override
     protected void paintComponent(Graphics graphics) {
 
@@ -93,6 +101,13 @@ public class Panel extends JPanel implements KeyListener {
         }
         
         // draw Tiles
+        for (int index = 0; index < 4; index++) {
+        	drawTiles((byte) index, graphics);
+        }
+     
+        
+/*      OLD VERSION:
+ 
         for (int i = 0; i < 9; i++) {
         	for (int j = 0; j < 13; j++) {
         		Tile t = grid[i][j];
@@ -126,11 +141,13 @@ public class Panel extends JPanel implements KeyListener {
         for (int i = 0; i < 9; i++) {
             for (int j = 0; j < 13; j++) {
                 Tile t = grid[i][j];
-                if (t.getIndex() == (byte) 5) {
-                    graphics.drawString("3", t.x + 22, t.y + 28);		// draw "0" for walkable Tiles
+                if (t.getIndex() == (byte) 3) {
+                    graphics.drawString("3", t.x + 22, t.y + 28);		// draw "3" for Bomb Tiles
                 }
             }
         }
+     */
+        
         
         graphics.fillRect(player.x, player.y, player.width, player.height);
         
@@ -138,7 +155,7 @@ public class Panel extends JPanel implements KeyListener {
 
     
     
-    
+    // initialize the Game
     public void initGame() {
 
         /**
@@ -202,12 +219,8 @@ public class Panel extends JPanel implements KeyListener {
             player.setMovementX(-2);
 
         } else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-
-            if(coll.checkTile(player, grid) != null){
-                coll.checkTile(player, grid).setIndex((byte) 5);
-            }
-            
-
+        	
+        	plantBomb();
         }
     }
 
@@ -225,13 +238,15 @@ public class Panel extends JPanel implements KeyListener {
             player.setMovementY(0);
         }
     }
-
+    
+    // determin Posiotion of Player
     public Player determinePos(Player p){
 
         p.y += p.getMovementY();
         p.x += p.getMovementX();
         return p;    
     }
+    
     
     // setting Tiles
     public void setTileIndex() {
@@ -254,6 +269,7 @@ public class Panel extends JPanel implements KeyListener {
         			t.setIndex((byte) 0);		
         		}
         		
+        		// setting individual destructable Tiles
         		grid[0][1].setIndex((byte) 0);
         		grid[0][11].setIndex((byte) 0);
         		grid[1][0].setIndex((byte) 0);
@@ -266,5 +282,46 @@ public class Panel extends JPanel implements KeyListener {
         	}
     	}
 		return;	
+    }
+    
+    
+    // turn walkable Tile into Bomb Tile
+    public void plantBomb() {
+    	if (player.getInventory() > 0) {
+    		if (coll.checkTile(player, grid) != null){
+    			coll.checkTile(player, grid).setIndex((byte) 3);
+    			player.setInventory(player.getInventory() - 1);
+    			if (player.getInventory() < player.getBombMax()) {
+    				
+    			    // wait 3 seconds after Bomb planted before refilling inventory
+    		    	new java.util.Timer().schedule( 
+    		    	        new java.util.TimerTask() {
+    		    	            @Override
+    		    	            public void run() {
+    		    	            	if (player.getInventory() < player.getBombMax()) {
+    		    	            		player.setInventory(player.getInventory() + 1);
+    		    	            	}
+    		    	            }
+    		    	        }, 
+    		    	        3000 
+    		    	);
+    	    	}
+    		}
+    	}
+    	return;
+    }
+    
+    
+    // draw Tiles
+    public void drawTiles(byte index, Graphics graphics) {
+    	for (int i = 0; i < 9; i++) {
+        	for (int j = 0; j < 13; j++) {
+        		Tile t = grid[i][j];
+        		if (t.getIndex() == index) {
+        			graphics.drawRect(t.x, t.y, t.width, t.height);
+        			graphics.drawString(Integer.toString(index), t.x + 22, t.y + 28);		
+        		}
+        	}
+        }
     }
 }

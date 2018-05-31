@@ -6,7 +6,7 @@ public class Collision {
 		
 	}
 	
-	public Player check(Player p, Tile[][] grid, Line2D top, Line2D b, Line2D l, Line2D r) {
+	public Player check(Player p, Tile[][] grid, Line2D top, Line2D bottom, Line2D left, Line2D right) {
 	    for (int i = 0; i < 9; i++) {
         	for (int j = 0; j < 13; j++) {
         		Tile t = grid[i][j];
@@ -17,45 +17,20 @@ public class Collision {
         				System.out.println("Player intersects from below");
         			}
         			
-        			if (t.intersectsLine(b)) {
+        			if (t.intersectsLine(bottom)) {
 	            		p.y = t.y - 26; 
         				System.out.println("Player intersects from above");
         			}
         			
-        			if (t.intersectsLine(l)) {
+        			if (t.intersectsLine(left)) {
 	            		p.x = t.x + 51; 
         				System.out.println("Player intersects from right");
         			}
         			
-        			if (t.intersectsLine(r)) {
+        			if (t.intersectsLine(right)) {
 	            		p.x = t.x - 26; 
         				System.out.println("Player intersects from left");
         			}
-        			/*
-	        		if (p.intersects(t) && p.x < t.x - 45) {
-	        			p.x = t.x - 50;
-	        			
-	        			System.out.println("Player intersects from left");
-	        		}	
-	        			
-	        		if (p.intersects(t) && p.x > t.x + 45) {
-	            		p.x = t.x + 50;
-	            			
-	            		System.out.println("Player intersects from right");
-	        		}
-	        		
-	        		if (p.intersects(t) && p.y < t.y - 45) {
-	            		p.y = t.y - 50;
-	            			
-	            		System.out.println("Player intersects from above");
-	        		}
-	        		
-	        		if (p.intersects(t) && p.y < t.y + 49) {
-	            		p.y = t.y + 50;
-	            		
-	            			
-	            		System.out.println("Player intersects from below");
-	        		}*/
         		}
         	}
         }
