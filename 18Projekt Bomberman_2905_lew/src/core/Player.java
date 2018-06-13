@@ -11,7 +11,9 @@ public class Player extends Rectangle {
 	private int movementX, movementY;
     private int bombMax = 2;
     private int inventory = bombMax;
+    private int bombRange=2;
 
+	
 	
 	public Player(int x, int y, int width, int height) {
 
@@ -54,4 +56,11 @@ public class Player extends Rectangle {
 		this.bombMax = bombMax;
 	}
 
+	public int getBombRange() {
+		return bombRange;
+	}
+
+	public void setBombRange(int bombRange) {
+		this.bombRange = bombRange;
+	}
 }
