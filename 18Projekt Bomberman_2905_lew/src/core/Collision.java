@@ -39,7 +39,7 @@ public class Collision {
                 Tile t = tiles[i][j];
 
                 if(t.getIndex() == (byte) 4 && p.intersects(t)){
-                	System.out.println("You are DEADO");
+                	System.out.println("You are DEAD");
                 	p.setMovementX(0);
                 	p.setMovementY(0);
 				}
