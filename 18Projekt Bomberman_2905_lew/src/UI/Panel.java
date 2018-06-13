@@ -4,7 +4,6 @@ import core.Collision;
 import core.Explosion;
 import core.Player;
 import core.Tile;
-import java.awt.geom.Line2D;
 import java.util.Timer;
 import javax.swing.*;
 import java.awt.*;
@@ -32,11 +31,7 @@ public class Panel extends JPanel implements KeyListener {
 	Player player;
 	Explosion explosion;
 	Tile[][] grid;
-	Collision coll;
-	Line2D top;
-	Line2D bottom;
-	Line2D left;
-	Line2D right;
+	Collision coll;	
 	Timer timer;
 	
 	
@@ -73,13 +68,10 @@ public class Panel extends JPanel implements KeyListener {
 
 	// update Gamelogic
 	public void update() {
-		player = determinePos(player);
+		player = player.determinePos();
 		explosion = new Explosion();
-		player = coll.check(player, grid, top, bottom, left, right);
-		top.setLine(player.x + 2, player.y, player.x + 23, player.y);
-		bottom.setLine(player.x + 2, player.y + 25, player.x + 23, player.y + 25);
-		left.setLine(player.x, player.y + 23, player.x, player.y + 2);
-		right.setLine(player.x + 25, player.y + 23, player.x + 25, player.y + 2);
+		player = coll.check(player, grid);
+		player.setPlayerLines();
 		coll.checkIsDead(player, grid);
 
 
@@ -109,10 +101,7 @@ public class Panel extends JPanel implements KeyListener {
 		 * current: draws player only (14/05/18)
 		 */
 
-		top = new Line2D.Float();
-		bottom = new Line2D.Float();
-		left = new Line2D.Float();
-		right = new Line2D.Float();
+		
 		player = new Player(110, 560, 25, 25);
 		coll = new Collision();
 		timer = new Timer();
@@ -164,8 +153,8 @@ public class Panel extends JPanel implements KeyListener {
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 
-			plantBomb();
-			setDeadlyTiles();
+			player.plantBomb(grid, coll);
+			explosion.setDeadlyTiles(grid, player, timer);
 		}
 	}
 
@@ -184,13 +173,6 @@ public class Panel extends JPanel implements KeyListener {
 		}
 	}
 
-	// determine Posiotion of Player
-	public Player determinePos(Player p) {
-
-		p.y += p.getMovementY();
-		p.x += p.getMovementX();
-		return p;
-	}
 
 	// setting Tiles
 	public void setTileIndex() {
@@ -235,30 +217,6 @@ public class Panel extends JPanel implements KeyListener {
 		return;
 	}
 
-	// turn walkable Tile into Bomb Tile
-	public void plantBomb() {
-		if (player.getInventory() > 0) {
-			if (coll.checkTile(player, grid) != null) {
-				coll.checkTile(player, grid).setIndex((byte) 3);
-				player.setInventory(player.getInventory() - 1);
-				if (player.getInventory() < player.getBombMax()) {
-
-					// wait 3 seconds after Bomb planted before refilling inventory
-					new java.util.Timer().schedule(new java.util.TimerTask() {
-						@Override
-						public void run() {
-							if (player.getInventory() < player.getBombMax()) {
-								player.setInventory(player.getInventory() + 1);
-
-							}
-						}
-					}, 3000);
-				}
-			}
-		}
-		return;
-	}
-
 	// draw Tiles
 	public void drawTiles(byte index, Graphics graphics) {
 		for (int i = 1; i < 10; i++) {
@@ -267,39 +225,6 @@ public class Panel extends JPanel implements KeyListener {
 				if (t.getIndex() == index) {
 					graphics.drawRect(t.x, t.y, t.width, t.height);
 					graphics.drawString(Integer.toString(index), t.x + 22, t.y + 28);
-				}
-			}
-		}
-	}
-
-	
-		
-
-	
-	public void setDeadlyTiles() {
-		for (int i = 0; i < 11; i++) {
-			for (int j = 0; j < 15; j++) {
-				int ipos = i;
-				int jpos = j;
-
-				if (grid[i][j].getIndex() == (byte) 3) {
-					
-					if (!grid[i][j].getMarker()) {
-						timer.schedule(new java.util.TimerTask() {
-							@Override
-							public void run() {
-								explosion.explosionAllDirections(ipos, jpos, (byte)4, grid, player);
-								timer.schedule(new java.util.TimerTask() {
-									@Override
-									public void run() {
-										explosion.explosionAllDirections(ipos, jpos, (byte)0, grid, player);
-										grid[ipos][jpos].setMarker(false);
-									}
-								}, 1000);
-							}
-						}, 3000);
-					grid[i][j].setMarker(true);
-					}
 				}
 			}
 		}
