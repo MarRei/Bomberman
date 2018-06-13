@@ -17,9 +17,18 @@ public class Tile extends Rectangle {
      */
 
     private byte index; // index determines what kind of tile is drawn on screen. (0-5)
-    private boolean bombMarker = false; // determines if a bomb is placed so it wont get detected by setDeadlyTiles() 
+    private boolean bombMarker = false;
+    private int powerUpMarker = 0;// determines if a bomb is placed so it wont get detected by setDeadlyTiles() 
     
 	
+
+	public int getPowerUpMarker() {
+		return powerUpMarker;
+	}
+
+	public void setPowerUpMarker(int powerUpMarker) {
+		this.powerUpMarker = powerUpMarker;
+	}
 
 	public Tile(int x, int y, int width, int height) {
 		

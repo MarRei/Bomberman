@@ -4,6 +4,8 @@ import core.Collision;
 import core.Explosion;
 import core.Player;
 import core.Tile;
+
+import java.util.Random;
 import java.util.Timer;
 import javax.swing.*;
 import java.awt.*;
@@ -84,7 +86,7 @@ public class Panel extends JPanel implements KeyListener {
 		graphics.clearRect(0, 0, globalWidth, globalHeight);
 
 		// draw Tiles
-		for (int index = 0; index < 5; index++) {
+		for (int index = 0; index < 8; index++) {
 			drawTiles((byte) index, graphics);
 		}
 
@@ -124,6 +126,7 @@ public class Panel extends JPanel implements KeyListener {
 		y = 50;
 
 		setTileIndex();
+		setPowerUps();
 	}
 
 	@Override
@@ -170,6 +173,21 @@ public class Panel extends JPanel implements KeyListener {
 				|| e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
 
 			player.setMovementY(0);
+		}
+	}
+	public void setPowerUps()
+	{
+		for (int i = 0; i < 11; i++) {
+			for (int j = 0; j < 15; j++) {
+				if(grid[i][j].getIndex()==1)
+				{
+					if(Math.random()*100>55)
+					{
+						Random r = new Random();
+							grid[i][j].setPowerUpMarker(r.nextInt(2 + 1) + 1);
+					}
+				}
+			}
 		}
 	}
 
