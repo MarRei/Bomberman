@@ -59,7 +59,7 @@ public class Panel extends JPanel implements KeyListener {
 				repaint();
 
 				try {
-					Thread.sleep(25);
+					Thread.sleep(10);
 				} catch (InterruptedException e) {
 					e.printStackTrace();
 				}
@@ -140,19 +140,20 @@ public class Panel extends JPanel implements KeyListener {
 
 		if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
 
-			player.setMovementY(-2);
+			player.setMovementY(-player.getSpeed());
 
 		} else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
-			player.setMovementX(2);
+			player.setMovementX(+player.getSpeed());
 
 		} else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
 
-			player.setMovementY(2);
+			player.setMovementY(+player.getSpeed());
 
 		} else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
 
-			player.setMovementX(-2);
+			player.setMovementX(-player.getSpeed());
+
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 
