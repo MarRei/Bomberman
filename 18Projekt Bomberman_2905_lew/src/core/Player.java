@@ -33,10 +33,10 @@ public class Player extends Rectangle {
 	
 	// set Lines for Collision Check
 	public void setPlayerLines() {
-		top.setLine(x + 2, y, x + 23, y);
-		bottom.setLine(x + 2, y + 25, x + 23, y + 25);
-		left.setLine(x, y + 23, x, y + 2);
-		right.setLine(x + 25, y + 23, x + 25, y + 2);
+		top.setLine(x + 3, y, x + 22, y);
+		bottom.setLine(x + 3, y + 25, x + 22, y + 25);
+		left.setLine(x, y + 22, x, y + 3);
+		right.setLine(x + 25, y + 22, x + 25, y + 3);
 	}
 	
 	
