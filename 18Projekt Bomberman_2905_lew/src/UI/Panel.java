@@ -140,19 +140,19 @@ public class Panel extends JPanel implements KeyListener {
 
 		if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
 
-			player.setMovementY(-3);
+			player.setMovementY(-2);
 
 		} else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
-			player.setMovementX(3);
+			player.setMovementX(2);
 
 		} else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
 
-			player.setMovementY(3);
+			player.setMovementY(2);
 
 		} else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
 
-			player.setMovementX(-3);
+			player.setMovementX(-2);
 
 		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 

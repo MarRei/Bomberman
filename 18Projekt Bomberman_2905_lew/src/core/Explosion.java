@@ -3,7 +3,7 @@ package core;
 import java.util.Timer;
 
 public class Explosion {
-	
+		
 
 	public void setDeadlyTiles(Tile[][]grid, Player player, Timer timer) {
 		for (int i = 0; i < 11; i++) {
@@ -34,107 +34,30 @@ public class Explosion {
 		}
 	}
 
-	public void explosionUp(int ipos, int jpos, byte index, Tile[][]grid, Player player) {
-		
+	public void explosion(int ipos, int jpos, byte index, Tile[][]grid, Player player, int x, int y) {
 		for (int i = 0; i <= player.getBombRange(); i++) {
 			grid[ipos][jpos].setIndex(index);
 			
-			if (grid[ipos - i] [jpos].getIndex() == 1) {
-				
-				grid[ipos - i] [jpos].setIndex(index);
+			if (grid[ipos + i * x] [jpos + i * y].getIndex() == 1) {
+				grid[ipos + i * x] [jpos + i * y].setIndex(index);
 				break;	
 			}
 			
 			
-			if (grid[ipos - i] [jpos].getIndex() != 2) {
-				grid[ipos - i] [jpos].setIndex(index);	
-			}
-			
-			
-			else {
-				break;
-			}
-			if(grid[ipos - i] [jpos].getPowerUpMarker()!=0&&index==0)
-			{
-				grid[ipos - i] [jpos].setIndex((byte)checkPowerUpIndex(grid,ipos-i,jpos));
-			}
-		}
-	}
-	
-	public void explosionDown(int ipos, int jpos, byte index,Tile[][]grid, Player player) {
-		
-		for (int i = 0; i <= player.getBombRange(); i++) {
-			grid[ipos][jpos].setIndex(index);
-			
-			if (grid[ipos + i] [jpos].getIndex() == 1) {
-				grid[ipos + i] [jpos].setIndex(index);
-				break;	
-			}
-		
-			
-			if (grid[ipos + i] [jpos].getIndex() != 2) {
-				grid[ipos + i] [jpos].setIndex(index);	
+			if (grid[ipos + i * x] [jpos + i * y].getIndex() != 2) {
+				grid[ipos + i * x] [jpos + i * y].setIndex(index);	
 			}
 			
 			else {
 				break;
 			}
-			if(grid[ipos +i] [jpos].getPowerUpMarker()!=0&&index==0)
-			{
-				grid[ipos +i] [jpos].setIndex((byte)checkPowerUpIndex(grid,ipos+i,jpos));
+			
+			if(grid[ipos + i * x] [jpos + i * y].getPowerUpMarker() != 0 && index == 0) {
+				grid[ipos + i * x] [jpos + i * y].setIndex((byte)checkPowerUpIndex(grid, ipos + i *x, jpos + i * y));
 			}
 		}
 	}
 	
-	public void explosionRight(int ipos, int jpos, byte index,Tile[][]grid,Player player) {
-	
-		for (int i = 0; i <= player.getBombRange(); i++) {
-			grid[ipos][jpos].setIndex(index);
-		
-			if (grid[ipos] [jpos + i].getIndex() == 1) {
-				grid[ipos] [jpos + i].setIndex(index);
-				break;	
-			}
-			
-			
-			if (grid[ipos] [jpos + i].getIndex() != 2) {
-				grid[ipos] [jpos + i].setIndex(index);	
-			}
-			
-			else {
-				break;
-			}
-			if(grid[ipos] [jpos+i].getPowerUpMarker()!=0&&index==0)
-			{
-				grid[ipos] [jpos+i].setIndex((byte)checkPowerUpIndex(grid,ipos,jpos+i));
-			}
-		}
-	}
-	
-	public void explosionLeft(int ipos, int jpos, byte index,Tile[][]grid,Player player) {
-		
-		for (int i = 0; i <= player.getBombRange(); i++) {
-			grid[ipos][jpos].setIndex(index);
-			
-			if (grid[ipos] [jpos - i].getIndex() == 1) {
-				grid[ipos] [jpos - i].setIndex(index);
-				break;	
-			}
-			
-			
-			if (grid[ipos] [jpos - i].getIndex() != 2) {
-				grid[ipos] [jpos - i].setIndex(index);	
-			}
-			
-			else {
-				break;
-			}
-			if(grid[ipos] [jpos-i].getPowerUpMarker()!=0&&index==0)
-			{
-				grid[ipos ] [jpos-i].setIndex((byte)checkPowerUpIndex(grid,ipos,jpos-i));
-			}
-		}
-	}
 	public int checkPowerUpIndex(Tile[][]grid,int ipos, int jpos)
 	{
 		if(grid[ipos][jpos].getPowerUpMarker()==1)
@@ -149,13 +72,13 @@ public class Explosion {
 		{
 			return 7;
 		}
-		return 8;
+		return 0;
 	}
 
 	public void explosionAllDirections(int ipos, int jpos, byte index,Tile[][]grid,Player player) {
-		explosionLeft( ipos,  jpos,  index,grid, player);
-		explosionRight( ipos,  jpos,  index,grid, player);
-		explosionUp( ipos,  jpos,  index,grid, player);
-		explosionDown( ipos,  jpos,  index,grid, player);
+		explosion( ipos,  jpos,  index,grid, player, 1, 0);
+		explosion( ipos,  jpos,  index,grid, player, -1, 0);
+		explosion( ipos,  jpos,  index,grid, player, 0, 1);
+		explosion( ipos,  jpos,  index,grid, player, 0, -1);
 	}
 }
