@@ -40,7 +40,7 @@ public class Player extends Rectangle {
 	}
 	
 	
-	// determine Posiotion of Player
+	// determine Position of Player
 	public Player determinePos() {
 		y += getMovementY();
 		x += getMovementX();
