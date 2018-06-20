@@ -60,18 +60,18 @@ public class Explosion {
 	
 	public int checkPowerUpIndex(Tile[][]grid,int ipos, int jpos)
 	{
-		if(grid[ipos][jpos].getPowerUpMarker()==1)
-		{
+		if(grid[ipos][jpos].getPowerUpMarker()==1) {
 			return 5;
 		}
-		if(grid[ipos][jpos].getPowerUpMarker()==2)
-		{
+		
+		if(grid[ipos][jpos].getPowerUpMarker()==2) {
 			return 6;
 		}
-		if(grid[ipos][jpos].getPowerUpMarker()==3)
-		{
+		
+		if(grid[ipos][jpos].getPowerUpMarker()==3) {
 			return 7;
 		}
+		
 		return 0;
 	}
 

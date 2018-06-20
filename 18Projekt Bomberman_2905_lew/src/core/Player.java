@@ -9,13 +9,15 @@ public class Player extends Rectangle {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private float movementX, movementY;
-    private int bombMax = 2;
-    private int inventory = bombMax;
-    private int bombRange=2;
-    private float speed = 1.6f;
+	private int movementX, movementY;
+    private int bombMax = 1;
+    private int inventory = 1;
+    private int bombRange=1;
+    private int speed = 2;
     
-    Line2D top;
+   
+
+	Line2D top;
 	Line2D bottom;
 	Line2D left;
 	Line2D right;
@@ -43,8 +45,8 @@ public class Player extends Rectangle {
 	
 	// determine Posiotion of Player
 	public Player determinePos() {
-		y += getMovementY();
 		x += getMovementX();
+		y += getMovementY();
 		return this;
 	}
 	
@@ -77,19 +79,19 @@ public class Player extends Rectangle {
 	
 	
 	// Getter & Setter
-    public float getMovementX() {
+    public int getMovementX() {
         return movementX;
     }
 
-    public void setMovementX(float movement) {
+    public void setMovementX(int movement) {
         this.movementX = movement;
     }
 
-    public float getMovementY() {
+    public int getMovementY() {
         return movementY;
     }
 
-    public void setMovementY(float movement) {
+    public void setMovementY(int movement) {
         this.movementY = movement;
     }
     
@@ -116,8 +118,8 @@ public class Player extends Rectangle {
 	public void setBombRange(int bombRange) {
 		this.bombRange = bombRange;
 	}
-
-	public float getSpeed() {
+	
+	 public int getSpeed() {
 		return speed;
 	}
 
