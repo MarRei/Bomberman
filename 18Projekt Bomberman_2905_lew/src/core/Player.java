@@ -14,8 +14,11 @@ public class Player extends Rectangle {
     private int inventory = 1;
     private int bombRange=1;
     private int speed = 2;
+    private boolean isDead=false;
     
    
+
+	
 
 	Line2D top;
 	Line2D bottom;
@@ -125,5 +128,13 @@ public class Player extends Rectangle {
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
+	}
+	public boolean isDead() {
+		return isDead;
+	}
+
+
+	public void setDead(boolean isDead) {
+		this.isDead = isDead;
 	}
 }

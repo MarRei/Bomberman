@@ -70,14 +70,15 @@ public class Panel extends JPanel implements KeyListener {
 
 	// update Gamelogic
 	public void update() {
+		if(!player.isDead()) {
 		player = player.determinePos();
 		explosion = new Explosion();
-		player = coll.check(player, grid);
+		coll.check(player, grid);
 		player.setPlayerLines();
 		coll.checkIsDead(player, grid);
 		coll.pickUpPower(player, grid);
-		System.out.println("BombMax: " +player.getBombMax());
-		System.out.println("Inventory: " +player.getInventory());
+		}
+		
 
 
 	}

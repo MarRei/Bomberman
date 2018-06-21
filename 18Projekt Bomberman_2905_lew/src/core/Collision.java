@@ -9,7 +9,7 @@ public class Collision {
 	}
 	
 
-	public Player check(Player p, Tile[][] grid) {
+	public void check(Player p, Tile[][] grid) {
 	    for (int i = 0; i < 11; i++) {
         	for (int j = 0; j < 15; j++) {
         		Tile t = grid[i][j];
@@ -83,12 +83,12 @@ public class Collision {
         		}
         	}
 	    }
-		return p;
+		
 	}
 
 	
 	
-	public Player pickUpPower(Player p, Tile[][] grid) {
+	public void pickUpPower(Player p, Tile[][] grid) {
 	    for (int i = 0; i < 11; i++) {
         	for (int j = 0; j < 15; j++) {
         		Tile t = grid[i][j];
@@ -115,7 +115,7 @@ public class Collision {
         		}
         	}
         }
-	    return p;
+	   
 	}
 	
 	public void checkIsDead(Player p,Tile[][] tiles) {
@@ -125,8 +125,7 @@ public class Collision {
 
                 if(t.getIndex() == (byte) 4 && p.intersects(t)){
                 	System.out.println("You are DEADO");
-                	p.setMovementX(0);
-                	p.setMovementY(0);
+                	p.setDead(true);
 				}
 			}
 		}
