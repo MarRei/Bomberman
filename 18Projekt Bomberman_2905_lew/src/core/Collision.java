@@ -13,7 +13,7 @@ public class Collision {
 	    for (int i = 0; i < 11; i++) {
         	for (int j = 0; j < 15; j++) {
         		Tile t = grid[i][j];
-        		if (t.getIndex() == (byte) 1 || t.getIndex() == (byte) 2) {		//  apply Collision on Tiles with index 1 or 2
+        		if (t.getIndex() == (byte) 1 || t.getIndex() == (byte) 2||(p.isInitialBomb()&&t.getIndex()==(byte)3)) {		//  apply Collision on Tiles with index 1 or 2
         			
         			if (p.intersects(t)) {
         				Rectangle line = p.intersection(t);
@@ -95,19 +95,19 @@ public class Collision {
         		if (p.intersects(t)) {
 	        		
 	        		// player speed
-	        		if (t.getIndex() == (byte) 5) {			
+	        		if (t.getIndex() == (byte) 5 && p.getSpeed() < 8) {			
 	        			p.setSpeed(p.getSpeed() + 1); 
 	        			t.setIndex((byte) 0);
 	        		}
 	        		
 	        		// bombrange
-	        		else if (t.getIndex() == (byte) 6) {
+	        		else if (t.getIndex() == (byte) 6 && p.getBombRange() < 6) {
 	        			p.setBombRange(p.getBombRange() + 1);
 	        			t.setIndex((byte) 0); 
 	        		}
 	        		
 	        		// player inventory
-	        		else if (t.getIndex() == (byte) 7) {
+	        		else if (t.getIndex() == (byte) 7 && p.getBombMax() < 6) {
 	        			p.setBombMax(p.getBombMax() + 1);
 	        			p.setInventory(p.getInventory() + 1);
 	        			t.setIndex((byte) 0);
@@ -117,6 +117,20 @@ public class Collision {
         }
 	   
 	}
+	public void checkIntialBomb(Player p,Tile t)
+	{
+		
+		if(t!=null)
+		{
+		if(!p.intersects(t))
+		{
+				p.setInitialBomb(true);
+					
+		}
+		
+		
+	}}
+	
 	
 	public void checkIsDead(Player p,Tile[][] tiles) {
 		for(int i = 0;  i< 11; i++){
@@ -130,13 +144,13 @@ public class Collision {
 			}
 		}
 	}
-
-	public Tile checkTile(Player p, Tile[][] tiles) {
+	
+	public Tile checkTile(Player p, Tile[][] tiles,byte a) {
 		for(int i = 0; i < 11; i++){
 			for(int j = 0; j < 15; j++){
                 Tile t = tiles[i][j];
 
-                if(t.getIndex() == (byte) 0 && p.intersects(t)){
+                if(t.getIndex() == (byte) a && p.intersects(t)){
                 	return t;
 				}
 			}

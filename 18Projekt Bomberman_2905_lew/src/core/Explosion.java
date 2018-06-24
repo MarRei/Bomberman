@@ -23,6 +23,7 @@ public class Explosion {
 									public void run() {
 										explosionAllDirections(ipos, jpos, (byte)0, grid, player);
 										grid[ipos][jpos].setMarker(false);
+										
 									}
 								}, 1000);
 							}
@@ -37,29 +38,41 @@ public class Explosion {
 	public void explosion(int ipos, int jpos, byte index, Tile[][]grid, Player player, int x, int y) {
 		for (int i = 0; i <= player.getBombRange(); i++) {
 			grid[ipos][jpos].setIndex(index);
-			
-			if (grid[ipos + i * x] [jpos + i * y].getIndex() == 1) {
-				grid[ipos + i * x] [jpos + i * y].setIndex(index);
-				break;	
-			}
-			
-			
-			if (grid[ipos + i * x] [jpos + i * y].getIndex() != 2) {
-				grid[ipos + i * x] [jpos + i * y].setIndex(index);	
+			if(index == 0) {
+				try {
+					if(grid[ipos + i * x] [jpos + i * y].getIndex() == 4) {
+						grid[ipos + i * x] [jpos + i * y].setIndex(index);
+						if(grid[ipos + i * x] [jpos + i * y].getPowerUpMarker() != 0 && index == 0) {
+							grid[ipos + i * x] [jpos + i * y].setIndex((byte)checkPowerUpIndex(grid, ipos + i *x, jpos + i * y));
+						}
+					}
+				}
+				catch(Exception e) {	
+				}
 			}
 			
 			else {
-				break;
-			}
-			
-			if(grid[ipos + i * x] [jpos + i * y].getPowerUpMarker() != 0 && index == 0) {
-				grid[ipos + i * x] [jpos + i * y].setIndex((byte)checkPowerUpIndex(grid, ipos + i *x, jpos + i * y));
+				if (grid[ipos + i * x] [jpos + i * y].getIndex() == 1) {
+					grid[ipos + i * x] [jpos + i * y].setIndex(index);
+					int breakposi = ipos + i * x;
+					int breakposj = jpos + i * y;
+					System.out.println(breakposi+" "+breakposj);
+					break;	
+				}
+				
+				
+				if (grid[ipos + i * x] [jpos + i * y].getIndex() != 2) {
+					grid[ipos + i * x] [jpos + i * y].setIndex(index);	
+				}
+				
+				else {
+					break;
+				}	
 			}
 		}
 	}
 	
-	public int checkPowerUpIndex(Tile[][]grid,int ipos, int jpos)
-	{
+	public int checkPowerUpIndex(Tile[][]grid,int ipos, int jpos) {
 		if(grid[ipos][jpos].getPowerUpMarker()==1) {
 			return 5;
 		}

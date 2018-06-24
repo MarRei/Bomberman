@@ -1,10 +1,10 @@
 package UI;
 
+import core.AI_Marcel;
 import core.Collision;
 import core.Explosion;
 import core.Player;
 import core.Tile;
-
 import java.util.Random;
 import java.util.Timer;
 import javax.swing.*;
@@ -35,6 +35,8 @@ public class Panel extends JPanel implements KeyListener {
 	Tile[][] grid;
 	Collision coll;	
 	Timer timer;
+	Tile t;
+	AI_Marcel bot;
 	
 	
 	public Panel() {
@@ -71,16 +73,19 @@ public class Panel extends JPanel implements KeyListener {
 	// update Gamelogic
 	public void update() {
 		if(!player.isDead()) {
-		player = player.determinePos();
-		explosion = new Explosion();
-		coll.check(player, grid);
-		player.setPlayerLines();
-		coll.checkIsDead(player, grid);
-		coll.pickUpPower(player, grid);
+			player = player.determinePos();
+			explosion = new Explosion();
+			coll.checkIntialBomb(player, t);
+			coll.check(player, grid);
+			coll.checkIsDead(player, grid);
+			coll.pickUpPower(player, grid);
+			
+			
 		}
-		
-
-
+		coll.check(bot, grid);
+		bot.move(player);
+		bot = (AI_Marcel) bot.determinePos();
+	
 	}
 
 	// draw the Game
@@ -96,7 +101,13 @@ public class Panel extends JPanel implements KeyListener {
 
 		// turn player black
 		graphics.fillRect(player.x, player.y, player.width, player.height);
-
+		
+		graphics.fillRect(bot.x, bot.y, bot.width, bot.height);
+		
+		// UI elements
+		graphics.drawString("Bombs: " +player.getInventory(), 1000, 250);
+		graphics.drawString("Bombrange: " +player.getBombRange(), 1000, 300);
+		graphics.drawString("Speed: " +player.getSpeed(), 1000, 350);
 	}
 
 	// initialize the Game
@@ -107,10 +118,10 @@ public class Panel extends JPanel implements KeyListener {
 		 * current: draws player only (14/05/18)
 		 */
 
-		
 		player = new Player(110, 560, 25, 25);
 		coll = new Collision();
 		timer = new Timer();
+		bot = new AI_Marcel(715, 160, 25, 25);
 		
 		
 		// create grid
@@ -162,6 +173,7 @@ public class Panel extends JPanel implements KeyListener {
 
 			player.plantBomb(grid, coll);
 			explosion.setDeadlyTiles(grid, player, timer);
+			t = coll.checkTile(player, grid, (byte)3);
 		}
 	}
 
@@ -172,20 +184,29 @@ public class Panel extends JPanel implements KeyListener {
 				|| e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
 			player.setMovementX(0);
+			
 
 		} else if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S
 				|| e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
 
 			player.setMovementY(0);
 		}
+	 
+	else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+
+		player.setInitialBomb(false);
 	}
-	public void setPowerUps()
-	{
+	
+	
+	 
+}
+
+	public void setPowerUps() {
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 15; j++) {
 				if(grid[i][j].getIndex()==1)
 				{
-					if(Math.random()*100>55)
+					if(Math.random()*100>55)	
 					{
 						Random r = new Random();
 							grid[i][j].setPowerUpMarker(r.nextInt(2 + 1) + 1);
@@ -228,9 +249,9 @@ public class Panel extends JPanel implements KeyListener {
 				grid[2][1].setIndex((byte) 0);
 				grid[2][13].setIndex((byte) 0);
 				grid[8][1].setIndex((byte) 0);
-				grid[8][12].setIndex((byte) 0);
+				grid[8][13].setIndex((byte) 0);
 				grid[9][2].setIndex((byte) 0);
-				grid[9][13].setIndex((byte) 0);
+				grid[9][12].setIndex((byte) 0);
 				
 				
 
