@@ -3,12 +3,12 @@ package core;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AI {
+public class AI_Gressi {
 
     Player aiPlayer;
     boolean playerAbove, playerBelow, playerLeft, playerRight;
 
-    public AI() {
+    public AI_Gressi() {
         aiPlayer = new Player(710, 160, 25, 25);
     }
 

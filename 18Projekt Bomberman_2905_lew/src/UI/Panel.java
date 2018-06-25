@@ -29,7 +29,7 @@ public class Panel extends JPanel implements KeyListener {
 	// resources
 	Player player;
 	ArrayList<Player> playerList;
-	AI aiPlayer;
+	AI_Gressi aiGressiPlayer;
 	Explosion explosion;
 	Tile[][] grid;
 	Collision coll;
@@ -80,8 +80,8 @@ public class Panel extends JPanel implements KeyListener {
 
 		player = new Player(110, 560, 25, 25);
 		playerList.add(player);
-		aiPlayer = new AI();
-		playerList.add(aiPlayer.getAiPlayer());
+		aiGressiPlayer = new AI_Gressi();
+		playerList.add(aiGressiPlayer.getAiPlayer());
 		coll = new Collision();
 		timer = new Timer();
 		explosion = new Explosion();
@@ -114,8 +114,8 @@ public class Panel extends JPanel implements KeyListener {
 
 		updateActivePlayers();
 
-		aiPlayer.checkSurroundings(grid, playerList);
-		aiPlayer.moveLikeADonkey();
+		aiGressiPlayer.checkSurroundings(grid, playerList);
+		aiGressiPlayer.moveLikeADonkey();
 		
 
 
@@ -134,8 +134,8 @@ public class Panel extends JPanel implements KeyListener {
 
 		// turn player black
 		graphics.fillRect(player.x, player.y, player.width, player.height);
-		graphics.fillRect(aiPlayer.getAiPlayer().x, aiPlayer.getAiPlayer().y,
-				aiPlayer.getAiPlayer().width, aiPlayer.getAiPlayer().height);
+		graphics.fillRect(aiGressiPlayer.getAiPlayer().x, aiGressiPlayer.getAiPlayer().y,
+				aiGressiPlayer.getAiPlayer().width, aiGressiPlayer.getAiPlayer().height);
 
 	}
 
