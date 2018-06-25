@@ -1,6 +1,7 @@
 package core;
 
 import java.awt.*;
+import java.awt.geom.Line2D;
 
 public class Player extends Rectangle {
 
@@ -14,25 +15,37 @@ public class Player extends Rectangle {
     private int bombRange=1;
     private int speed = 2;
     private boolean isDead=false;
-    private boolean initialBomb = false;
     
+   
+
+	
+
+	Line2D top;
+	Line2D bottom;
+	Line2D left;
+	Line2D right;
 	
 	public Player(int x, int y, int width, int height) {
 
         super(x, y, width, height);
+        
+        top = new Line2D.Float();
+		bottom = new Line2D.Float();
+		left = new Line2D.Float();
+		right = new Line2D.Float();
+
     }
 	
-
-	public boolean isInitialBomb() {
-		return initialBomb;
+	
+	// set Lines for Collision Check
+	public void setPlayerLines() {
+		top.setLine(x + 2, y, x + 23, y);
+		bottom.setLine(x + 2, y + 25, x + 23, y + 25);
+		left.setLine(x, y + 23, x, y + 2);
+		right.setLine(x + 25, y + 23, x + 25, y + 2);
 	}
-
-
-	public void setInitialBomb(boolean initialBomb) {
-		this.initialBomb = initialBomb;
-	}
-
-
+	
+	
 	// determine Posiotion of Player
 	public Player determinePos() {
 		x += getMovementX();
@@ -44,8 +57,8 @@ public class Player extends Rectangle {
 	// turn walkable Tile into Bomb Tile
 	public void plantBomb(Tile [][] grid, Collision coll) {
 		if (getInventory() > 0) {
-			if (coll.checkTile(this, grid,(byte)0) != null) {
-				coll.checkTile(this, grid,(byte)0).setIndex((byte) 3);
+			if (coll.checkTile(this, grid) != null) {
+				coll.checkTile(this, grid).setIndex((byte) 3);
 				setInventory(getInventory() - 1);
 				if (getInventory() < getBombMax()) {
 
@@ -55,7 +68,7 @@ public class Player extends Rectangle {
 						public void run() {
 							if (getInventory() < getBombMax()) {
 								setInventory(getInventory() + 1);
-								
+
 							}
 						}
 					}, 3000);
@@ -116,10 +129,10 @@ public class Player extends Rectangle {
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
-	
 	public boolean isDead() {
 		return isDead;
 	}
+
 
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;

@@ -1,15 +1,12 @@
 package UI;
 
-import core.AI_Marcel;
-import core.Collision;
-import core.Explosion;
-import core.Player;
-import core.Tile;
-import java.util.Random;
-import java.util.Timer;
+import core.*;
+
+import java.util.*;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Timer;
 
 public class Panel extends JPanel implements KeyListener {
 
@@ -31,12 +28,12 @@ public class Panel extends JPanel implements KeyListener {
 	
 	// resources
 	Player player;
+	ArrayList<Player> playerList;
+	AI aiPlayer;
 	Explosion explosion;
 	Tile[][] grid;
-	Collision coll;	
+	Collision coll;
 	Timer timer;
-	Tile t;
-	AI_Marcel bot;
 	
 	
 	public Panel() {
@@ -45,6 +42,8 @@ public class Panel extends JPanel implements KeyListener {
 		setSize(globalWidth, globalHeight);
 		setFocusable(true);
 		requestFocusInWindow();
+
+		playerList = new ArrayList<>();
 		
 		initGame();
 
@@ -70,46 +69,6 @@ public class Panel extends JPanel implements KeyListener {
 		t.start();
 	}
 
-	// update Gamelogic
-	public void update() {
-		if(!player.isDead()) {
-			player = player.determinePos();
-			explosion = new Explosion();
-			coll.checkIntialBomb(player, t);
-			coll.check(player, grid);
-			coll.checkIsDead(player, grid);
-			coll.pickUpPower(player, grid);
-			
-			
-		}
-		coll.check(bot, grid);
-		bot.move(player);
-		bot = (AI_Marcel) bot.determinePos();
-	
-	}
-
-	// draw the Game
-	@Override
-	protected void paintComponent(Graphics graphics) {
-
-		graphics.clearRect(0, 0, globalWidth, globalHeight);
-
-		// draw Tiles
-		for (int index = 0; index < 8; index++) {
-			drawTiles((byte) index, graphics);
-		}
-
-		// turn player black
-		graphics.fillRect(player.x, player.y, player.width, player.height);
-		
-		graphics.fillRect(bot.x, bot.y, bot.width, bot.height);
-		
-		// UI elements
-		graphics.drawString("Bombs: " +player.getInventory(), 1000, 250);
-		graphics.drawString("Bombrange: " +player.getBombRange(), 1000, 300);
-		graphics.drawString("Speed: " +player.getSpeed(), 1000, 350);
-	}
-
 	// initialize the Game
 	public void initGame() {
 
@@ -118,12 +77,16 @@ public class Panel extends JPanel implements KeyListener {
 		 * current: draws player only (14/05/18)
 		 */
 
+
 		player = new Player(110, 560, 25, 25);
+		playerList.add(player);
+		aiPlayer = new AI();
+		playerList.add(aiPlayer.getAiPlayer());
 		coll = new Collision();
 		timer = new Timer();
-		bot = new AI_Marcel(715, 160, 25, 25);
-		
-		
+		explosion = new Explosion();
+
+
 		// create grid
 		grid = new Tile[11][15];
 		int x = 50;
@@ -144,69 +107,48 @@ public class Panel extends JPanel implements KeyListener {
 		setPowerUps();
 	}
 
-	@Override
-	public void keyTyped(KeyEvent e) {
+	// update Gamelogic
+	public void update() {
+
+		coll.checkIsDead(playerList, grid);
+
+		updateActivePlayers();
+
+		aiPlayer.checkSurroundings(grid, playerList);
+		aiPlayer.moveLikeADonkey();
+		
+
 
 	}
 
+	// draw the Game
 	@Override
-	public void keyPressed(KeyEvent e) {
+	protected void paintComponent(Graphics graphics) {
 
+		graphics.clearRect(0, 0, globalWidth, globalHeight);
 
-		if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
-
-			player.setMovementY(-player.getSpeed());
-
-		} else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
-
-			player.setMovementX(player.getSpeed());
-
-		} else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
-
-			player.setMovementY(player.getSpeed());
-
-		} else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
-
-			player.setMovementX(-player.getSpeed());
-
-		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-
-			player.plantBomb(grid, coll);
-			explosion.setDeadlyTiles(grid, player, timer);
-			t = coll.checkTile(player, grid, (byte)3);
+		// draw Tiles
+		for (int index = 0; index < 8; index++) {
+			drawTiles((byte) index, graphics);
 		}
+
+		// turn player black
+		graphics.fillRect(player.x, player.y, player.width, player.height);
+		graphics.fillRect(aiPlayer.getAiPlayer().x, aiPlayer.getAiPlayer().y,
+				aiPlayer.getAiPlayer().width, aiPlayer.getAiPlayer().height);
+
 	}
 
-	@Override
-	public void keyReleased(KeyEvent e) {
 
-		if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT
-				|| e.getKeyCode() == KeyEvent.VK_RIGHT) {
 
-			player.setMovementX(0);
-			
 
-		} else if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S
-				|| e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
-
-			player.setMovementY(0);
-		}
-	 
-	else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
-
-		player.setInitialBomb(false);
-	}
-	
-	
-	 
-}
-
-	public void setPowerUps() {
+	public void setPowerUps()
+	{
 		for (int i = 0; i < 11; i++) {
 			for (int j = 0; j < 15; j++) {
 				if(grid[i][j].getIndex()==1)
 				{
-					if(Math.random()*100>55)	
+					if(Math.random()*100>55)
 					{
 						Random r = new Random();
 							grid[i][j].setPowerUpMarker(r.nextInt(2 + 1) + 1);
@@ -249,9 +191,9 @@ public class Panel extends JPanel implements KeyListener {
 				grid[2][1].setIndex((byte) 0);
 				grid[2][13].setIndex((byte) 0);
 				grid[8][1].setIndex((byte) 0);
-				grid[8][13].setIndex((byte) 0);
+				grid[8][12].setIndex((byte) 0);
 				grid[9][2].setIndex((byte) 0);
-				grid[9][12].setIndex((byte) 0);
+				grid[9][13].setIndex((byte) 0);
 				
 				
 
@@ -271,5 +213,67 @@ public class Panel extends JPanel implements KeyListener {
 				}
 			}
 		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+
+
+		if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_UP) {
+
+			player.setMovementY(-player.getSpeed());
+
+		} else if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_RIGHT) {
+
+			player.setMovementX(player.getSpeed());
+
+		} else if (e.getKeyCode() == KeyEvent.VK_S || e.getKeyCode() == KeyEvent.VK_DOWN) {
+
+			player.setMovementY(player.getSpeed());
+
+		} else if (e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT) {
+
+			player.setMovementX(-player.getSpeed());
+
+		} else if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+
+			player.plantBomb(grid, coll);
+			explosion.setDeadlyTiles(grid, player, timer);
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+
+		if (e.getKeyCode() == KeyEvent.VK_D || e.getKeyCode() == KeyEvent.VK_A || e.getKeyCode() == KeyEvent.VK_LEFT
+				|| e.getKeyCode() == KeyEvent.VK_RIGHT) {
+
+			player.setMovementX(0);
+
+		} else if (e.getKeyCode() == KeyEvent.VK_W || e.getKeyCode() == KeyEvent.VK_S
+				|| e.getKeyCode() == KeyEvent.VK_UP || e.getKeyCode() == KeyEvent.VK_DOWN) {
+
+			player.setMovementY(0);
+		}
+	}
+
+	public void updateActivePlayers(){
+
+		for(Player p : playerList){
+
+			if(!p.isDead()){
+				p = p.determinePos();
+				coll.check(p, grid);
+				coll.pickUpPower(p, grid);
+				p.setPlayerLines();
+			}
+
+		}
+
 	}
 }
