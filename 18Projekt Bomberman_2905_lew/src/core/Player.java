@@ -1,64 +1,37 @@
 package core;
 
 import java.awt.*;
-import java.awt.geom.Line2D;
 
 public class Player extends Rectangle {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int movementX, movementY;
-    private int bombMax = 1;
-    private int inventory = 1;
-    private int bombRange=1;
-    private int speed = 2;
-    private boolean isDead=false;
-    
-   
+	private int bombMax = 1;
+	private int inventory = 1;
+	private int bombRange = 2;
+	private int speed = 2;
+	private boolean isDead = false;
+	private boolean bombOn = false;
+	private boolean initialBomb = false;
+	String direction = "";
 
-	
-
-	Line2D top;
-	Line2D bottom;
-	Line2D left;
-	Line2D right;
-	
 	public Player(int x, int y, int width, int height) {
 
-        super(x, y, width, height);
-        
-        top = new Line2D.Float();
-		bottom = new Line2D.Float();
-		left = new Line2D.Float();
-		right = new Line2D.Float();
-
-    }
-	
-	
-	// set Lines for Collision Check
-	public void setPlayerLines() {
-		top.setLine(x + 2, y, x + 23, y);
-		bottom.setLine(x + 2, y + 25, x + 23, y + 25);
-		left.setLine(x, y + 23, x, y + 2);
-		right.setLine(x + 25, y + 23, x + 25, y + 2);
+		super(x, y, width, height);
 	}
-	
-	
+
 	// determine Posiotion of Player
 	public Player determinePos() {
 		x += getMovementX();
 		y += getMovementY();
 		return this;
 	}
-	
-	
+
 	// turn walkable Tile into Bomb Tile
-	public void plantBomb(Tile [][] grid, Collision coll) {
+	public void plantBomb(Tile[][] grid, Collision coll) {
 		if (getInventory() > 0) {
-			if (coll.checkTile(this, grid) != null) {
-				coll.checkTile(this, grid).setIndex((byte) 3);
+			if (coll.checkTile(this, grid, (byte) 0) != null) {
+				coll.checkTile(this, grid, (byte) 0).setIndex((byte) 3);
 				setInventory(getInventory() - 1);
 				if (getInventory() < getBombMax()) {
 
@@ -77,35 +50,32 @@ public class Player extends Rectangle {
 		}
 		return;
 	}
-	
 
-	
-	
 	// Getter & Setter
-    public int getMovementX() {
-        return movementX;
-    }
+	public int getMovementX() {
+		return movementX;
+	}
 
-    public void setMovementX(int movement) {
-        this.movementX = movement;
-    }
+	public void setMovementX(int movement) {
+		this.movementX = movement;
+	}
 
-    public int getMovementY() {
-        return movementY;
-    }
+	public int getMovementY() {
+		return movementY;
+	}
 
-    public void setMovementY(int movement) {
-        this.movementY = movement;
-    }
-    
-    public int getInventory() {
+	public void setMovementY(int movement) {
+		this.movementY = movement;
+	}
+
+	public int getInventory() {
 		return inventory;
 	}
 
 	public void setInventory(int inventory) {
 		this.inventory = inventory;
 	}
-	
+
 	public int getBombMax() {
 		return bombMax;
 	}
@@ -121,20 +91,36 @@ public class Player extends Rectangle {
 	public void setBombRange(int bombRange) {
 		this.bombRange = bombRange;
 	}
-	
-	 public int getSpeed() {
+
+	public int getSpeed() {
 		return speed;
 	}
 
 	public void setSpeed(int speed) {
 		this.speed = speed;
 	}
+
 	public boolean isDead() {
 		return isDead;
 	}
 
-
 	public void setDead(boolean isDead) {
 		this.isDead = isDead;
+	}
+
+	public boolean getInitialBomb() {
+		return initialBomb;
+	}
+
+	public void setInitialBomb(boolean initialBomb) {
+		this.initialBomb = initialBomb;
+	}
+
+	public boolean getBombOn() {
+		return bombOn;
+	}
+
+	public void setBombOn(boolean bombOn) {
+		this.bombOn = bombOn;
 	}
 }

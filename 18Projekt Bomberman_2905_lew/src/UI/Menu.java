@@ -6,121 +6,108 @@ import java.awt.event.*;
 
 public class Menu extends JFrame implements WindowListener {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	/**
-     * main menu and starting point for the application. only job is to
-     * have functioning start and quit button.
-     * <p>
-     * ToDo: design! (low priority)
-     */
 
-    JButton start, exit;
+	JButton start, exit;
 
-    public Menu(String title) {
-        JPanel mainmenu = new JPanel();
+	public Menu(String title) {
+		JPanel mainmenu = new JPanel();
 
-        //initial settings for frame Menu layout
-        setTitle(title);
-        addWindowListener(this);
-        setSize(1280, 720);
-        setResizable(false);
-        setVisible(true);
-        setLocationRelativeTo(null);
-        add(mainmenu, BorderLayout.CENTER);
+		// initial settings for frame Menu layout
+		setTitle(title);
+		addWindowListener(this);
+		setSize(1280, 720);
+		setResizable(false);
+		setVisible(true);
+		setLocationRelativeTo(null);
+		add(mainmenu, BorderLayout.CENTER);
 
-        //initial settings for Panel main Menu layout
-        mainmenu.setLayout(null);
-        mainmenu.setVisible(true);
+		// initial settings for Panel main Menu layout
+		mainmenu.setLayout(null);
+		mainmenu.setVisible(true);
 
-        //initial settings for button layout
-        start = new JButton("Start!");
-        exit = new JButton("Exit!");
+		// initial settings for button layout
+		start = new JButton("Start!");
+		exit = new JButton("Exit!");
 
-        start.setBounds(465, 285, 150, 50);
+		start.setBounds(465, 285, 150, 50);
 
-        exit.setBounds(465, 410, 150, 50);
+		exit.setBounds(465, 410, 150, 50);
 
-        mainmenu.add(start);
-        mainmenu.add(exit);
+		mainmenu.add(start);
+		mainmenu.add(exit);
 
-        //actionListener for jbuttons
-        start.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+		// actionListener for jbuttons
+		start.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
 
-                //removes Menu from frame
-                start.setVisible(false);
-                start.setVisible(false);
+				// removes Menu from frame
+				start.setVisible(false);
+				start.setVisible(false);
+				remove(mainmenu);
 
-                remove(mainmenu);
+				// adds main Panel to frame
+				Panel gamepanel = new Panel();
+				add(gamepanel);
+				gamepanel.addKeyListener(gamepanel);
+				gamepanel.requestFocus();
 
-                //adds main Panel to frame
+			}
+		});
 
-                Panel gamepanel = new Panel();
-                add(gamepanel);
-                gamepanel.addKeyListener(gamepanel);
-                gamepanel.requestFocus();
+		exit.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("User killed program via exit button");
+				System.exit(0);
 
-            }
-        });
+			}
+		});
+	}
 
-        exit.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                System.out.println("User killed program via exit button");
-                System.exit(0);
+	public static void main(String[] args) {
+		new Menu("Projekt Bomberman");
+	}
 
-            }
-        });
-    }
+	// overrides for WindowListener
+	@Override
+	public void windowOpened(WindowEvent e) {
 
-    public static void main(String[] args) {
-        new Menu("Projekt Bomberman");
-    }
+		System.out.println("Window initialised");
 
+	}
 
-    // overrides for WindowListener
+	@Override
+	public void windowClosing(WindowEvent e) {
 
-    @Override
-    public void windowOpened(WindowEvent e) {
+		System.out.println("User killed program by windowClosing event");
+		System.exit(0);
 
-        System.out.println("Window initialised");
+	}
 
-    }
+	@Override
+	public void windowClosed(WindowEvent e) {
 
-    @Override
-    public void windowClosing(WindowEvent e) {
+	}
 
-        System.out.println("User killed program by windowClosing event");
-        System.exit(0);
+	@Override
+	public void windowIconified(WindowEvent e) {
 
-    }
+	}
 
-    @Override
-    public void windowClosed(WindowEvent e) {
+	@Override
+	public void windowDeiconified(WindowEvent e) {
 
-    }
+	}
 
-    @Override
-    public void windowIconified(WindowEvent e) {
+	@Override
+	public void windowActivated(WindowEvent e) {
 
-    }
+	}
 
-    @Override
-    public void windowDeiconified(WindowEvent e) {
+	@Override
+	public void windowDeactivated(WindowEvent e) {
 
-    }
-
-    @Override
-    public void windowActivated(WindowEvent e) {
-
-    }
-
-    @Override
-    public void windowDeactivated(WindowEvent e) {
-
-    }
+	}
 }
